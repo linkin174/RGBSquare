@@ -11,9 +11,11 @@ class ViewController: UIViewController {
     // MARK: - IB Outlets
 
     @IBOutlet var colorView: UIView!
+    
     @IBOutlet var redSlider: UISlider!
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
+    
     @IBOutlet var redValue: UILabel!
     @IBOutlet var greenValue: UILabel!
     @IBOutlet var blueValue: UILabel!
