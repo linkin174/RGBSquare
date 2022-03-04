@@ -8,12 +8,48 @@
 import UIKit
 
 class ViewController: UIViewController {
+    // MARK: - IB Outlets
+
+    @IBOutlet var colorView: UIView!
+    @IBOutlet var redSlider: UISlider!
+    @IBOutlet var greenSlider: UISlider!
+    @IBOutlet var blueSlider: UISlider!
+    @IBOutlet var redValue: UILabel!
+    @IBOutlet var greenValue: UILabel!
+    @IBOutlet var blueValue: UILabel!
+
+    // MARK: - Override Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value), green: CGFloat(greenSlider.value), blue: CGFloat(blueSlider.value), alpha: 1)
+        colorView.layer.cornerRadius = 20
     }
 
+    // MARK: - IBActions
 
+    @IBAction func redSliderValueChange() {
+        redValue.text = getStringFromFloat(redSlider.value)
+        setBackgroundColor()
+    }
+
+    @IBAction func greenSliderValueChange() {
+        greenValue.text = getStringFromFloat(greenSlider.value)
+        setBackgroundColor()
+    }
+
+    @IBAction func blueSliderValueChange() {
+        blueValue.text = getStringFromFloat(blueSlider.value)
+        setBackgroundColor()
+    }
+
+    // MARK: - Private methods
+
+    private func getStringFromFloat(_ number: Float) -> String {
+        return String(format: "%.02f", round(number * 100) / 100)
+    }
+
+    private func setBackgroundColor() {
+        colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value), green: CGFloat(greenSlider.value), blue: CGFloat(blueSlider.value), alpha: 1)
+    }
 }
-
