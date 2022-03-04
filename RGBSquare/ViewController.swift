@@ -28,7 +28,7 @@ class ViewController: UIViewController {
                                             green: CGFloat(greenSlider.value),
                                             blue: CGFloat(blueSlider.value),
                                             alpha: 1)
-        colorView.layer.cornerRadius = 20
+        colorView.layer.cornerRadius = 16
 
         // colorValues overrides
         redValue.text = getStringFromFloat(redSlider.value)
