@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Sbj-A7-u68">
-                                <rect key="frame" x="16" y="84" width="396" height="395"/>
+                                <rect key="frame" x="16" y="104" width="396" height="395"/>
                                 <subviews>
                                     <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="EkH-q1-hFJ">
                                         <rect key="frame" x="0.0" y="0.0" width="396" height="185"/>
@@ -96,9 +96,6 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="EkH-q1-hFJ" firstAttribute="width" secondItem="Sbj-A7-u68" secondAttribute="width" id="rhY-k8-pZb"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -107,7 +104,7 @@
                             <constraint firstItem="xYl-C3-M1p" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.6" id="5yK-XL-Oa6"/>
                             <constraint firstItem="cQe-jV-UHK" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.6" id="7LB-Ka-J5y"/>
                             <constraint firstItem="aGW-tA-5ee" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.6" id="NJd-PU-bvg"/>
-                            <constraint firstItem="Sbj-A7-u68" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="NaB-pB-8IH"/>
+                            <constraint firstItem="Sbj-A7-u68" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="NaB-pB-8IH"/>
                             <constraint firstItem="EkH-q1-hFJ" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.199784" id="ZBT-8Z-bJ1"/>
                             <constraint firstItem="Sbj-A7-u68" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="l2f-fq-t5B"/>
                             <constraint firstAttribute="trailing" secondItem="Sbj-A7-u68" secondAttribute="trailing" constant="16" id="uvY-zi-na7"/>
