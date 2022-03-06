@@ -18,15 +18,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // colorView overrides
-        setBackgroundColor()
-        colorView.layer.cornerRadius = 16
-
+        
         // colorValues overrides
         for label in colorLabels {
             label.text = String(format: "%.02f", sliders[0].value)
         }
+
+        // colorView overrides
+        setBackgroundColor()
+        colorView.layer.cornerRadius = 16
     }
 
     // MARK: - IBActions
@@ -39,10 +39,9 @@ class ViewController: UIViewController {
     // MARK: - Private methods
 
     private func setBackgroundColor() {
-        let index = sliders.count - 1
-        colorView.backgroundColor = UIColor(red: CGFloat(sliders[index].value),
-                                            green: CGFloat(sliders[index].value),
-                                            blue: CGFloat(sliders[index].value),
+        colorView.backgroundColor = UIColor(red: CGFloat(sliders[0].value),
+                                            green: CGFloat(sliders[1].value),
+                                            blue: CGFloat(sliders[2].value),
                                             alpha: 1)
     }
 }
