@@ -76,21 +76,21 @@
                                         <rect key="frame" x="-2" y="0.0" width="284" height="31"/>
                                         <color key="minimumTrackTintColor" systemColor="systemRedColor"/>
                                         <connections>
-                                            <action selector="redSliderValueChange" destination="BYZ-38-t0r" eventType="valueChanged" id="H9J-DM-KrR"/>
+                                            <action selector="slidersValuesChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="KfS-9f-RLV"/>
                                         </connections>
                                     </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xYl-C3-M1p">
+                                    <slider opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xYl-C3-M1p">
                                         <rect key="frame" x="-2" y="42" width="284" height="31"/>
                                         <color key="minimumTrackTintColor" systemColor="systemGreenColor"/>
                                         <connections>
-                                            <action selector="greenSliderValueChange" destination="BYZ-38-t0r" eventType="valueChanged" id="pJp-XH-Tbx"/>
+                                            <action selector="slidersValuesChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="alk-Ac-Ijm"/>
                                         </connections>
                                     </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="cQe-jV-UHK">
+                                    <slider opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="cQe-jV-UHK">
                                         <rect key="frame" x="-2" y="84" width="284" height="31"/>
                                         <color key="minimumTrackTintColor" systemColor="systemBlueColor"/>
                                         <connections>
-                                            <action selector="blueSliderValueChange" destination="BYZ-38-t0r" eventType="valueChanged" id="78a-wa-Ak0"/>
+                                            <action selector="slidersValuesChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="MAF-59-imo"/>
                                         </connections>
                                     </slider>
                                 </subviews>
@@ -112,13 +112,13 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="blueSlider" destination="cQe-jV-UHK" id="bjI-qG-JDe"/>
-                        <outlet property="blueValue" destination="Xfc-ed-3tq" id="2vU-CM-qWn"/>
                         <outlet property="colorView" destination="EkH-q1-hFJ" id="EyN-5j-b6k"/>
-                        <outlet property="greenSlider" destination="xYl-C3-M1p" id="Bay-lL-cQm"/>
-                        <outlet property="greenValue" destination="EXY-ae-mWZ" id="LW4-fm-G6Y"/>
-                        <outlet property="redSlider" destination="aGW-tA-5ee" id="lBS-95-ncF"/>
-                        <outlet property="redValue" destination="w26-L9-veo" id="4ZW-gM-8kZ"/>
+                        <outletCollection property="colorLabels" destination="w26-L9-veo" collectionClass="NSMutableArray" id="7Hl-eP-Ecw"/>
+                        <outletCollection property="colorLabels" destination="EXY-ae-mWZ" collectionClass="NSMutableArray" id="ePY-gi-eEQ"/>
+                        <outletCollection property="colorLabels" destination="Xfc-ed-3tq" collectionClass="NSMutableArray" id="4BL-gh-aO2"/>
+                        <outletCollection property="sliders" destination="aGW-tA-5ee" collectionClass="NSMutableArray" id="kr9-dK-fyH"/>
+                        <outletCollection property="sliders" destination="xYl-C3-M1p" collectionClass="NSMutableArray" id="h1a-HF-1lz"/>
+                        <outletCollection property="sliders" destination="cQe-jV-UHK" collectionClass="NSMutableArray" id="c45-J9-Cnp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -11,14 +11,8 @@ class ViewController: UIViewController {
     // MARK: - IB Outlets
 
     @IBOutlet var colorView: UIView!
-    
-    @IBOutlet var redSlider: UISlider!
-    @IBOutlet var greenSlider: UISlider!
-    @IBOutlet var blueSlider: UISlider!
-    
-    @IBOutlet var redValue: UILabel!
-    @IBOutlet var greenValue: UILabel!
-    @IBOutlet var blueValue: UILabel!
+    @IBOutlet var sliders: [UISlider]!
+    @IBOutlet var colorLabels: [UILabel]!
 
     // MARK: - Override Methods
 
@@ -26,45 +20,29 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // colorView overrides
-        colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
-                                            green: CGFloat(greenSlider.value),
-                                            blue: CGFloat(blueSlider.value),
-                                            alpha: 1)
+        setBackgroundColor()
         colorView.layer.cornerRadius = 16
 
         // colorValues overrides
-        redValue.text = getStringFromFloat(redSlider.value)
-        greenValue.text = getStringFromFloat(greenSlider.value)
-        blueValue.text = getStringFromFloat(blueSlider.value)
+        for label in colorLabels {
+            label.text = String(format: "%.02f", sliders[0].value)
+        }
     }
 
     // MARK: - IBActions
 
-    @IBAction func redSliderValueChange() {
-        redValue.text = getStringFromFloat(redSlider.value)
-        setBackgroundColor()
-    }
-
-    @IBAction func greenSliderValueChange() {
-        greenValue.text = getStringFromFloat(greenSlider.value)
-        setBackgroundColor()
-    }
-
-    @IBAction func blueSliderValueChange() {
-        blueValue.text = getStringFromFloat(blueSlider.value)
+    @IBAction func slidersValuesChanged(_ sender: UISlider) {
+        colorLabels[sender.tag].text = String(format: "%.02f", sender.value)
         setBackgroundColor()
     }
 
     // MARK: - Private methods
 
-    private func getStringFromFloat(_ number: Float) -> String {
-        String(format: "%.02f", round(number * 100) / 100)
-    }
-
     private func setBackgroundColor() {
-        colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
-                                            green: CGFloat(greenSlider.value),
-                                            blue: CGFloat(blueSlider.value),
+        let index = sliders.count - 1
+        colorView.backgroundColor = UIColor(red: CGFloat(sliders[index].value),
+                                            green: CGFloat(sliders[index].value),
+                                            blue: CGFloat(sliders[index].value),
                                             alpha: 1)
     }
 }
