@@ -112,13 +112,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blueColorValue" destination="Xfc-ed-3tq" id="yEz-nq-2cc"/>
+                        <outlet property="blueSlider" destination="cQe-jV-UHK" id="rnB-It-CUF"/>
                         <outlet property="colorView" destination="EkH-q1-hFJ" id="EyN-5j-b6k"/>
-                        <outletCollection property="sliders" destination="aGW-tA-5ee" collectionClass="NSMutableArray" id="kr9-dK-fyH"/>
-                        <outletCollection property="sliders" destination="xYl-C3-M1p" collectionClass="NSMutableArray" id="h1a-HF-1lz"/>
-                        <outletCollection property="sliders" destination="cQe-jV-UHK" collectionClass="NSMutableArray" id="c45-J9-Cnp"/>
-                        <outletCollection property="colorLabels" destination="EXY-ae-mWZ" collectionClass="NSMutableArray" id="ePY-gi-eEQ"/>
-                        <outletCollection property="colorLabels" destination="w26-L9-veo" collectionClass="NSMutableArray" id="7Hl-eP-Ecw"/>
-                        <outletCollection property="colorLabels" destination="Xfc-ed-3tq" collectionClass="NSMutableArray" id="4BL-gh-aO2"/>
+                        <outlet property="greenColorValue" destination="w26-L9-veo" id="cca-t8-EG7"/>
+                        <outlet property="greenSlider" destination="xYl-C3-M1p" id="vRH-9U-Nff"/>
+                        <outlet property="redColorValue" destination="EXY-ae-mWZ" id="xUN-x3-2ll"/>
+                        <outlet property="redSlider" destination="aGW-tA-5ee" id="1Bn-ML-S4Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
