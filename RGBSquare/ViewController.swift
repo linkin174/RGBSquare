@@ -26,9 +26,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // colorValues overrides
-        redColorValue.text = stringFromFloat(redSlider.value)
-        greenColorValue.text = stringFromFloat(greenSlider.value)
-        blueColorValue.text = stringFromFloat(blueSlider.value)
+        redColorValue.text = string(from: redSlider)
+        greenColorValue.text = string(from: greenSlider)
+        blueColorValue.text = string(from: blueSlider)
 
         // colorView overrides
         setBackgroundColor()
@@ -37,14 +37,15 @@ class ViewController: UIViewController {
 
     // MARK: - IBActions
 
-    @IBAction func slidersValuesChanged(_ sender: UISlider) {
-        switch sender.tag {
-        case 0:
-            redColorValue.text = stringFromFloat(sender.value)
-        case 1:
-            greenColorValue.text = stringFromFloat(sender.value)
+    @IBAction func slidersValuesChanged(_ sender: UISlider) {   //Из разбора
+        
+        switch sender {
+        case redSlider:
+            setValue(for: redColorValue)
+        case greenSlider:
+            setValue(for: greenColorValue)
         default:
-            blueColorValue.text = stringFromFloat(sender.value)
+            setValue(for: blueColorValue)
         }
         setBackgroundColor()
     }
@@ -58,8 +59,21 @@ class ViewController: UIViewController {
                                             alpha: 1)
     }
 
-    private func stringFromFloat(_ number: Float) -> String {
-        String(format: "%.02f", number)
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
+    }
+    
+    private func setValue(for labels: UILabel...) { //Из разбора
+        labels.forEach { label in
+            switch label {
+            case redColorValue:
+                redColorValue.text = string(from: redSlider)
+            case greenColorValue:
+                greenColorValue.text = string(from: greenSlider)
+            default:
+                blueColorValue.text = string(from: blueSlider)
+            }
+        }
     }
 }
 
