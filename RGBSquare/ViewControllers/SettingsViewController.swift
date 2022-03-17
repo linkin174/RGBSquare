@@ -19,6 +19,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet var redSlider: UISlider!
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
+    
     @IBOutlet var redTF: UITextField!
     @IBOutlet var grennTF: UITextField!
     @IBOutlet var blueTF: UITextField!
@@ -31,7 +32,11 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setValuesForSliders(from: backgroundColor)
+        redTF.delegate = self
+        grennTF.delegate = self
+        blueTF.delegate = self
+        
+        updateUI(using: backgroundColor)
         
         // colorValues overrides
         redColorValue.text = string(from: redSlider)
@@ -39,7 +44,7 @@ class SettingsViewController: UIViewController {
         blueColorValue.text = string(from: blueSlider)
 
         // colorView overrides
-        setBackgroundColor()
+        setColorViewBGColor()
         colorView.layer.cornerRadius = 16
         
         
@@ -57,33 +62,42 @@ class SettingsViewController: UIViewController {
         
         switch sender {
         case redSlider:
-            setValue(for: redColorValue)
+            setTFValue(for: redTF)
+            setLabelValue(for: redColorValue)
         case greenSlider:
-            setValue(for: greenColorValue)
+            setTFValue(for: grennTF)
+            setLabelValue(for: greenColorValue)
         default:
-            setValue(for: blueColorValue)
+            setTFValue(for: blueTF)
+            setLabelValue(for: blueColorValue)
         }
-        setBackgroundColor()
+        setColorViewBGColor()
     }
 
     // MARK: - Private methods
 
-    private func setBackgroundColor() {
+    private func setColorViewBGColor() {
         colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
                                             green: CGFloat(greenSlider.value),
                                             blue: CGFloat(blueSlider.value),
                                             alpha: 1)
     }
 
-    private func setValuesForSliders(from color: UIColor) {
+    private func updateUI(using color: UIColor) {
         var red: CGFloat = 0
         var green: CGFloat = 0
         var blue: CGFloat = 0
         var alpha: CGFloat = 0
+        
         backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        
         redSlider.value = Float(red)
         greenSlider.value = Float(green)
         blueSlider.value = Float(blue)
+        
+        setTFValue(for: redTF)
+        setTFValue(for: grennTF)
+        setTFValue(for: blueTF)
     }
     
 
@@ -91,7 +105,7 @@ class SettingsViewController: UIViewController {
         String(format: "%.2f", slider.value)
     }
     
-    private func setValue(for labels: UILabel...) { //Из разбора
+    private func setLabelValue(for labels: UILabel...) { //Из разбора
         labels.forEach { label in
             switch label {
             case redColorValue:
@@ -103,5 +117,35 @@ class SettingsViewController: UIViewController {
             }
         }
     }
+    
+    private func setTFValue(for textFields: UITextField...) {
+        textFields.forEach { textField in
+            switch textField {
+            case redTF:
+                redTF.text = String(format: "%1.2f", redSlider.value)
+            case grennTF:
+                grennTF.text = String(format: "%1.2f", greenSlider.value)
+            default:
+                blueTF.text = String(format: "%1.2f", blueSlider.value)
+            }
+        }
+    }
 }
 
+extension SettingsViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == redTF {
+            grennTF.becomeFirstResponder()
+        } else if textField == grennTF {
+            blueTF.becomeFirstResponder()
+        } else {
+            blueTF.resignFirstResponder()
+        }
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+}
