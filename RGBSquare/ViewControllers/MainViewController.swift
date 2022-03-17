@@ -7,10 +7,34 @@
 
 import UIKit
 
+protocol SettingsViewControllerDelegate {
+//    var red: CGFloat { get }
+//    var green: CGFloat { get }
+//    var blue: CGFloat { get }
+    func setBackgroundColor(from red: CGFloat, green: CGFloat, blue: CGFloat)
+}
+
 class MainViewController: UIViewController {
     
     @IBOutlet var settingButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let settingsVC = segue.destination as? SettingsViewController else { return }
+        settingsVC.backgroundColor = self.view.backgroundColor
+        settingsVC.delegate = self
+    }
+}
+
+extension MainViewController: SettingsViewControllerDelegate{
+    func setBackgroundColor(from red: CGFloat, green: CGFloat, blue: CGFloat) {
+        view.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
 }
