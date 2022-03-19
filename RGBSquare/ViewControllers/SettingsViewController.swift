@@ -28,26 +28,29 @@ class SettingsViewController: UIViewController {
     var backgroundColor: UIColor!
     var delegate: SettingsViewControllerDelegate!
     
-    // MARK: - Override Methods
+    //MARK: Private Properties
+    private var red: CGFloat = 0
+    private var green: CGFloat = 0
+    private var blue: CGFloat = 0
+    private var alpha: CGFloat = 0
+    
 
+    
+    // MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         redTF.delegate = self
         grennTF.delegate = self
         blueTF.delegate = self
         
-        updateUI(using: backgroundColor)
+        backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         
-        // colorValues overrides
-        redColorValue.text = string(from: redSlider)
-        greenColorValue.text = string(from: greenSlider)
-        blueColorValue.text = string(from: blueSlider)
-
-        // colorView overrides
-        setColorViewBGColor()
+        addDoneButtonOnNumpad(for: blueTF)
+        addNextButtonOnNumpad(for: redTF)
+        addNextButtonOnNumpad(for: grennTF)
+        
+        updateUI()
         colorView.layer.cornerRadius = 16
-        
-        
     }
 
     // MARK: - IBActions
@@ -58,24 +61,24 @@ class SettingsViewController: UIViewController {
                                     blue: CGFloat(blueSlider.value))
         dismiss(animated: true)
     }
-    @IBAction func slidersValuesChanged(_ sender: UISlider) {   //Из разбора
-        
+    @IBAction func slidersValuesChanged(_ sender: UISlider) {
         switch sender {
         case redSlider:
-            setTFValue(for: redTF)
+            setTextFieldValue(for: redTF)
             setLabelValue(for: redColorValue)
         case greenSlider:
-            setTFValue(for: grennTF)
+            setTextFieldValue(for: grennTF)
             setLabelValue(for: greenColorValue)
         default:
-            setTFValue(for: blueTF)
+            setTextFieldValue(for: blueTF)
             setLabelValue(for: blueColorValue)
         }
         setColorViewBGColor()
     }
+}
 
-    // MARK: - Private methods
-
+extension SettingsViewController {
+    
     private func setColorViewBGColor() {
         colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
                                             green: CGFloat(greenSlider.value),
@@ -83,21 +86,20 @@ class SettingsViewController: UIViewController {
                                             alpha: 1)
     }
 
-    private func updateUI(using color: UIColor) {
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
-        
-        backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        
+    private func updateUI() {
         redSlider.value = Float(red)
         greenSlider.value = Float(green)
         blueSlider.value = Float(blue)
+
+        setTextFieldValue(for: redTF)
+        setTextFieldValue(for: grennTF)
+        setTextFieldValue(for: blueTF)
         
-        setTFValue(for: redTF)
-        setTFValue(for: grennTF)
-        setTFValue(for: blueTF)
+        setLabelValue(for: redColorValue)
+        setLabelValue(for: greenColorValue)
+        setLabelValue(for: blueColorValue)
+        
+        setColorViewBGColor()
     }
     
 
@@ -105,7 +107,7 @@ class SettingsViewController: UIViewController {
         String(format: "%.2f", slider.value)
     }
     
-    private func setLabelValue(for labels: UILabel...) { //Из разбора
+    private func setLabelValue(for labels: UILabel...) {
         labels.forEach { label in
             switch label {
             case redColorValue:
@@ -118,30 +120,75 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    private func setTFValue(for textFields: UITextField...) {
+    private func setTextFieldValue(for textFields: UITextField...) {
         textFields.forEach { textField in
             switch textField {
             case redTF:
-                redTF.text = String(format: "%1.2f", redSlider.value)
+                redTF.text = string(from: redSlider)
             case grennTF:
-                grennTF.text = String(format: "%1.2f", greenSlider.value)
+                grennTF.text = string(from: greenSlider)
             default:
-                blueTF.text = String(format: "%1.2f", blueSlider.value)
+                blueTF.text = string(from: blueSlider)
             }
+        }
+    }
+    
+    //MARK: Toolbar setup
+    func addDoneButtonOnNumpad(for textField: UITextField) {
+        let keypadToolbar = UIToolbar()
+        let flexiSpace = UIBarButtonItem.flexibleSpace()
+        let doneButton = UIBarButtonItem(title: "Done",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(doneToolbarButtonPressed))
+        keypadToolbar.items = [flexiSpace, doneButton]
+        keypadToolbar.sizeToFit()
+        textField.inputAccessoryView = keypadToolbar
+    }
+    
+    func addNextButtonOnNumpad(for textField: UITextField) {
+        let keypadToolbar = UIToolbar()
+        let flexiSpace = UIBarButtonItem.flexibleSpace()
+        let nextButton = UIBarButtonItem(title: "Next",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(nextToolbarButtonPressed))
+        keypadToolbar.items = [flexiSpace, nextButton]
+        keypadToolbar.sizeToFit()
+        textField.inputAccessoryView = keypadToolbar
+    }
+
+    @objc func doneToolbarButtonPressed() {
+        blueTF.resignFirstResponder()
+        textFieldDidEndEditing(blueTF)
+    }
+
+    @objc func nextToolbarButtonPressed() {
+        if redTF.isEditing {
+            grennTF.becomeFirstResponder()
+        } else {
+            blueTF.becomeFirstResponder()
         }
     }
 }
 
 extension SettingsViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == redTF {
-            grennTF.becomeFirstResponder()
-        } else if textField == grennTF {
-            blueTF.becomeFirstResponder()
-        } else {
-            blueTF.resignFirstResponder()
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField {
+        case redTF:
+            guard let value = Float(redTF.text!) else { return }
+            redSlider.setValue(value, animated: true)
+            slidersValuesChanged(redSlider)
+        case grennTF:
+            guard let value = Float(redTF.text!) else { return }
+            greenSlider.setValue(value, animated: true)
+            slidersValuesChanged(redSlider)
+        default:
+            guard let value = Float(blueTF.text!) else { return }
+            blueSlider.setValue(value, animated: true)
+            slidersValuesChanged(blueSlider)
         }
-        return true
+
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
