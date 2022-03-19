@@ -21,33 +21,34 @@ class SettingsViewController: UIViewController {
     @IBOutlet var blueSlider: UISlider!
     
     @IBOutlet var redTF: UITextField!
-    @IBOutlet var grennTF: UITextField!
+    @IBOutlet var greenTF: UITextField!
     @IBOutlet var blueTF: UITextField!
     
-    //MARK: Public Properties
+    // MARK: Public Properties
+
     var backgroundColor: UIColor!
     var delegate: SettingsViewControllerDelegate!
     
-    //MARK: Private Properties
+    // MARK: Private Properties
+
     private var red: CGFloat = 0
     private var green: CGFloat = 0
     private var blue: CGFloat = 0
     private var alpha: CGFloat = 0
     
-
-    
     // MARK: - Override Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
         redTF.delegate = self
-        grennTF.delegate = self
+        greenTF.delegate = self
         blueTF.delegate = self
         
         backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         
         addDoneButtonOnNumpad(for: blueTF)
         addNextButtonOnNumpad(for: redTF)
-        addNextButtonOnNumpad(for: grennTF)
+        addNextButtonOnNumpad(for: greenTF)
         
         updateUI()
         colorView.layer.cornerRadius = 16
@@ -55,19 +56,20 @@ class SettingsViewController: UIViewController {
 
     // MARK: - IBActions
 
-    @IBAction func doneButtonPressed() {
+    @IBAction func saveButtonPressed() {
         delegate.setBackgroundColor(from: CGFloat(redSlider.value),
                                     green: CGFloat(greenSlider.value),
                                     blue: CGFloat(blueSlider.value))
         dismiss(animated: true)
     }
+
     @IBAction func slidersValuesChanged(_ sender: UISlider) {
         switch sender {
         case redSlider:
             setTextFieldValue(for: redTF)
             setLabelValue(for: redColorValue)
         case greenSlider:
-            setTextFieldValue(for: grennTF)
+            setTextFieldValue(for: greenTF)
             setLabelValue(for: greenColorValue)
         default:
             setTextFieldValue(for: blueTF)
@@ -78,6 +80,15 @@ class SettingsViewController: UIViewController {
 }
 
 extension SettingsViewController {
+    private func showAlert(for textField: UITextField) {
+        let alert = UIAlertController(title: "Неверные данные",
+                                      message: "Введите число в диапазоне от 0.0 до 1.0",
+                                      preferredStyle: .alert)
+        let closeAlertAction = UIAlertAction(title: "OK", style: .cancel)
+        alert.addAction(closeAlertAction)
+        present(alert, animated: true)
+        textField.text = "1.00"
+    }
     
     private func setColorViewBGColor() {
         colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
@@ -92,7 +103,7 @@ extension SettingsViewController {
         blueSlider.value = Float(blue)
 
         setTextFieldValue(for: redTF)
-        setTextFieldValue(for: grennTF)
+        setTextFieldValue(for: greenTF)
         setTextFieldValue(for: blueTF)
         
         setLabelValue(for: redColorValue)
@@ -102,7 +113,6 @@ extension SettingsViewController {
         setColorViewBGColor()
     }
     
-
     private func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
@@ -125,15 +135,16 @@ extension SettingsViewController {
             switch textField {
             case redTF:
                 redTF.text = string(from: redSlider)
-            case grennTF:
-                grennTF.text = string(from: greenSlider)
+            case greenTF:
+                greenTF.text = string(from: greenSlider)
             default:
                 blueTF.text = string(from: blueSlider)
             }
         }
     }
     
-    //MARK: Toolbar setup
+    // MARK: Toolbar setup
+
     func addDoneButtonOnNumpad(for textField: UITextField) {
         let keypadToolbar = UIToolbar()
         let flexiSpace = UIBarButtonItem.flexibleSpace()
@@ -159,40 +170,56 @@ extension SettingsViewController {
     }
 
     @objc func doneToolbarButtonPressed() {
-        blueTF.resignFirstResponder()
-        textFieldDidEndEditing(blueTF)
+        if checkInputIsOK(for: blueTF) {
+            blueTF.resignFirstResponder()
+            textFieldDidEndEditing(blueTF)
+        }
     }
 
     @objc func nextToolbarButtonPressed() {
-        if redTF.isEditing {
-            grennTF.becomeFirstResponder()
-        } else {
+        if redTF.isEditing, checkInputIsOK(for: redTF) {
+            greenTF.becomeFirstResponder()
+        } else if greenTF.isEditing, checkInputIsOK(for: greenTF) {
             blueTF.becomeFirstResponder()
         }
+    }
+    
+    private func checkInputIsOK(for textField: UITextField) -> Bool {
+        guard let text = textField.text else { return false }
+        guard let value = Float(text), value <= 1.0 else {
+            showAlert(for: textField)
+            return false
+        }
+        return true
     }
 }
 
 extension SettingsViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        guard let value = Float(text) else { return }
         switch textField {
         case redTF:
-            guard let value = Float(redTF.text!) else { return }
-            redSlider.setValue(value, animated: true)
-            slidersValuesChanged(redSlider)
-        case grennTF:
-            guard let value = Float(redTF.text!) else { return }
-            greenSlider.setValue(value, animated: true)
-            slidersValuesChanged(redSlider)
+            if checkInputIsOK(for: redTF) {
+                redSlider.setValue(value, animated: true)
+                slidersValuesChanged(redSlider)
+            }
+        case greenTF:
+            if checkInputIsOK(for: greenTF) {
+                greenSlider.setValue(value, animated: true)
+                slidersValuesChanged(redSlider)
+            }
         default:
-            guard let value = Float(blueTF.text!) else { return }
-            blueSlider.setValue(value, animated: true)
-            slidersValuesChanged(blueSlider)
+            if checkInputIsOK(for: blueTF) {
+                blueSlider.setValue(value, animated: true)
+                slidersValuesChanged(blueSlider)
+            }
         }
-
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        view.endEditing(true)
+            view.endEditing(true)
     }
+
 }
