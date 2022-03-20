@@ -42,7 +42,7 @@ class SettingsViewController: UIViewController {
     // MARK: - IBActions
 
     @IBAction func saveButtonPressed() {
-        delegate.setBackgroundColor(from: CGFloat(redSlider.value),
+        delegate.setBackgroundColor(red: CGFloat(redSlider.value),
                                     green: CGFloat(greenSlider.value),
                                     blue: CGFloat(blueSlider.value))
         dismiss(animated: true)
@@ -99,7 +99,7 @@ extension SettingsViewController {
         
         blueSlider.value = Float(blue)
         slidersValuesChanged(blueSlider)
-        
+
         addNextButtonOnNumpad(for: redTF)
         addNextButtonOnNumpad(for: greenTF)
         addDoneButtonOnNumpad(for: blueTF)

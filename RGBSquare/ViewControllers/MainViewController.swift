@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SettingsViewControllerDelegate {
-    func setBackgroundColor(from red: CGFloat, green: CGFloat, blue: CGFloat)
+    func setBackgroundColor(red: CGFloat, green: CGFloat, blue: CGFloat)
 }
 
 class MainViewController: UIViewController {
@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
 }
 //MARK: - Extensions
 extension MainViewController: SettingsViewControllerDelegate{
-    func setBackgroundColor(from red: CGFloat, green: CGFloat, blue: CGFloat) {
+    func setBackgroundColor(red: CGFloat, green: CGFloat, blue: CGFloat) {
         view.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
 }
