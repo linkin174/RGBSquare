@@ -150,7 +150,7 @@ extension SettingsViewController {
 
     // MARK: - Toolbar setup
 
-    func addDoneButtonOnNumpad(for textField: UITextField) {
+    private func addDoneButtonOnNumpad(for textField: UITextField) {
         let keypadToolbar = UIToolbar()
         let flexiSpace = UIBarButtonItem.flexibleSpace()
         let doneButton = UIBarButtonItem(title: "Done",
@@ -162,7 +162,7 @@ extension SettingsViewController {
         textField.inputAccessoryView = keypadToolbar
     }
 
-    func addNextButtonOnNumpad(for textField: UITextField) {
+    private func addNextButtonOnNumpad(for textField: UITextField) {
         let keypadToolbar = UIToolbar()
         let flexiSpace = UIBarButtonItem.flexibleSpace()
         let nextButton = UIBarButtonItem(title: "Next",
