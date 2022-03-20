@@ -31,10 +31,7 @@ class SettingsViewController: UIViewController {
 
     // MARK: - Private Properties
 
-    private var red: CGFloat = 0
-    private var green: CGFloat = 0
-    private var blue: CGFloat = 0
-    private var alpha: CGFloat = 0
+   
 
     // MARK: - Override Methods
 
@@ -44,7 +41,7 @@ class SettingsViewController: UIViewController {
         greenTF.delegate = self
         blueTF.delegate = self
 
-        backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        
         
         updateUI()
     }
@@ -94,6 +91,13 @@ extension SettingsViewController {
     }
 
     private func updateUI() {
+        
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        
         redSlider.value = Float(red)
         slidersValuesChanged(redSlider)
         
