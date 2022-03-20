@@ -36,9 +36,6 @@ class SettingsViewController: UIViewController {
         redTF.delegate = self
         greenTF.delegate = self
         blueTF.delegate = self
-
-        
-        
         updateUI()
     }
 
