@@ -29,7 +29,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9h3-eT-IB9"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="I8F-Vu-SFk" firstAttribute="top" secondItem="9h3-eT-IB9" secondAttribute="top" constant="16" id="Fs8-Nf-Qc7"/>
                             <constraint firstItem="I8F-Vu-SFk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9h3-eT-IB9" secondAttribute="leading" constant="221" id="Q9Q-bU-2WV"/>
