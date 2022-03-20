@@ -12,9 +12,9 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet var colorView: UIView!
 
-    @IBOutlet var redColorValue: UILabel!
-    @IBOutlet var greenColorValue: UILabel!
-    @IBOutlet var blueColorValue: UILabel!
+    @IBOutlet var redColorLabel: UILabel!
+    @IBOutlet var greenColorLabel: UILabel!
+    @IBOutlet var blueColorLabel: UILabel!
 
     @IBOutlet var redSlider: UISlider!
     @IBOutlet var greenSlider: UISlider!
@@ -24,12 +24,12 @@ class SettingsViewController: UIViewController {
     @IBOutlet var greenTF: UITextField!
     @IBOutlet var blueTF: UITextField!
     
-    // MARK: Public Properties
+    // MARK: - Public Properties
 
     var backgroundColor: UIColor!
     var delegate: SettingsViewControllerDelegate!
     
-    // MARK: Private Properties
+    // MARK: - Private Properties
 
     private var red: CGFloat = 0
     private var green: CGFloat = 0
@@ -67,18 +67,18 @@ class SettingsViewController: UIViewController {
         switch sender {
         case redSlider:
             setTextFieldValue(for: redTF)
-            setLabelValue(for: redColorValue)
+            setLabelValue(for: redColorLabel)
         case greenSlider:
             setTextFieldValue(for: greenTF)
-            setLabelValue(for: greenColorValue)
+            setLabelValue(for: greenColorLabel)
         default:
             setTextFieldValue(for: blueTF)
-            setLabelValue(for: blueColorValue)
+            setLabelValue(for: blueColorLabel)
         }
         setColorViewBGColor()
     }
 }
-
+//MARK: - Extensions
 extension SettingsViewController {
     private func showAlert(for textField: UITextField) {
         let alert = UIAlertController(title: "Неверные данные",
@@ -106,9 +106,9 @@ extension SettingsViewController {
         setTextFieldValue(for: greenTF)
         setTextFieldValue(for: blueTF)
         
-        setLabelValue(for: redColorValue)
-        setLabelValue(for: greenColorValue)
-        setLabelValue(for: blueColorValue)
+        setLabelValue(for: redColorLabel)
+        setLabelValue(for: greenColorLabel)
+        setLabelValue(for: blueColorLabel)
         
         setColorViewBGColor()
     }
@@ -120,12 +120,12 @@ extension SettingsViewController {
     private func setLabelValue(for labels: UILabel...) {
         labels.forEach { label in
             switch label {
-            case redColorValue:
-                redColorValue.text = string(from: redSlider)
-            case greenColorValue:
-                greenColorValue.text = string(from: greenSlider)
+            case redColorLabel:
+                redColorLabel.text = string(from: redSlider)
+            case greenColorLabel:
+                greenColorLabel.text = string(from: greenSlider)
             default:
-                blueColorValue.text = string(from: blueSlider)
+                blueColorLabel.text = string(from: blueSlider)
             }
         }
     }
@@ -143,8 +143,7 @@ extension SettingsViewController {
         }
     }
     
-    // MARK: Toolbar setup
-
+    // MARK: - Toolbar setup
     func addDoneButtonOnNumpad(for textField: UITextField) {
         let keypadToolbar = UIToolbar()
         let flexiSpace = UIBarButtonItem.flexibleSpace()
@@ -172,7 +171,6 @@ extension SettingsViewController {
     @objc func doneToolbarButtonPressed() {
         if checkInputIsOK(for: blueTF) {
             blueTF.resignFirstResponder()
-            textFieldDidEndEditing(blueTF)
         }
     }
 
@@ -192,6 +190,14 @@ extension SettingsViewController {
         }
         return true
     }
+    
+//    private func checkTFNotEmpty(for textField: UITextField) -> Bool {
+//        guard let text = textField.text else {
+//            showAlert(for: textField)
+//            return false
+//        }
+//        return true
+//    }
 }
 
 extension SettingsViewController: UITextFieldDelegate {
@@ -219,7 +225,12 @@ extension SettingsViewController: UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-            view.endEditing(true)
-    }
-
+        let textField = [redTF, greenTF, blueTF]
+        textField.forEach { item in
+            guard let textField = item else { return }
+            if checkInputIsOK(for: textField) {
+            textField.endEditing(true)
+            }
+            }
+        }
 }

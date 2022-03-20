@@ -12,19 +12,17 @@ protocol SettingsViewControllerDelegate {
 }
 
 class MainViewController: UIViewController {
-    
+    //MARK: - IB Outlets
     @IBOutlet var settingButton: UIButton!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 
+    //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let settingsVC = segue.destination as? SettingsViewController else { return }
         settingsVC.backgroundColor = self.view.backgroundColor
         settingsVC.delegate = self
     }
 }
-
+//MARK: - Extensions
 extension MainViewController: SettingsViewControllerDelegate{
     func setBackgroundColor(from red: CGFloat, green: CGFloat, blue: CGFloat) {
         view.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
