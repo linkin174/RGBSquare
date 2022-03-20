@@ -21,6 +21,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet var blueSlider: UISlider!
 
     @IBOutlet var redTF: UITextField!
+   
     @IBOutlet var greenTF: UITextField!
     @IBOutlet var blueTF: UITextField!
 
@@ -36,6 +37,9 @@ class SettingsViewController: UIViewController {
         redTF.delegate = self
         greenTF.delegate = self
         blueTF.delegate = self
+        redTF.addTarget(self, action: #selector(textFieldDidBeginEditing), for: .editingChanged)
+        greenTF.addTarget(self, action: #selector(textFieldDidBeginEditing), for: .editingChanged)
+        blueTF.addTarget(self, action: #selector(textFieldDidBeginEditing), for: .editingChanged)
         updateUI()
     }
 
@@ -211,7 +215,25 @@ extension SettingsViewController: UITextFieldDelegate {
             slidersValuesChanged(blueSlider)
         }
     }
-
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard let text = textField.text, let value = Float(text) else { return }
+        switch textField {
+        case redTF:
+            redSlider.setValue(value, animated: true)
+            setColorViewBGColor()
+            setLabelValue(for: redColorLabel)
+        case greenTF:
+            greenSlider.setValue(value, animated: true)
+            setColorViewBGColor()
+            setLabelValue(for: greenColorLabel)
+        default:
+            blueSlider.setValue(value, animated: true)
+            setColorViewBGColor()
+            setLabelValue(for: blueColorLabel)
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         if checkTextFields() {
