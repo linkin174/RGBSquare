@@ -129,14 +129,28 @@ extension SettingsViewController {
             }
         }
     }
-    
+    /*
     private func checkTFInput(for textField: UITextField) -> Bool {
         guard let text = textField.text,
               let value = Float(text),
               value <= 1.0 else {
-            textField.text = "1.00"
+            textField.text = String(Double.random(in: 0.0...1.0))
             showAlert()
             return false
+        }
+        return true
+    }
+    */
+    private func checkTextFields() -> Bool {
+        let textFields = [redTF, greenTF, blueTF]
+        for textField in textFields {
+            guard let text = textField?.text,
+                  let value = Float(text),
+                  value <= 1.0 else {
+                showAlert()
+                textField?.text = String(Float.random(in: 0.0...1.0))
+                return false
+            }
         }
         return true
     }
@@ -168,15 +182,15 @@ extension SettingsViewController {
     }
 
     @objc func doneToolbarButtonPressed() {
-        if checkTFInput(for: blueTF) {
+        if checkTextFields() {
             blueTF.resignFirstResponder()
         }
     }
 
     @objc func nextToolbarButtonPressed() {
-        if redTF.isEditing, checkTFInput(for: redTF) {
+        if redTF.isEditing, checkTextFields() {
             greenTF.becomeFirstResponder()
-        } else if checkTFInput(for: greenTF) {
+        } else if checkTextFields() {
             blueTF.becomeFirstResponder()
         }
     }
@@ -200,9 +214,7 @@ extension SettingsViewController: UITextFieldDelegate {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        if checkTFInput(for: redTF),
-            checkTFInput(for: greenTF),
-            checkTFInput(for: blueTF) {
+        if checkTextFields() {
             view.endEditing(true)
         }
     }
