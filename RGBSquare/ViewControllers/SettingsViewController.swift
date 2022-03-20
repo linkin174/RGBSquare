@@ -203,7 +203,7 @@ extension SettingsViewController: UITextFieldDelegate {
             slidersValuesChanged(redSlider)
         case greenTF:
             greenSlider.setValue(value, animated: true)
-            slidersValuesChanged(redSlider)
+            slidersValuesChanged(greenSlider)
         default:
             blueSlider.setValue(value, animated: true)
             slidersValuesChanged(blueSlider)
