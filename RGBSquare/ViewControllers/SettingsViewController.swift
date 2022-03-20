@@ -29,10 +29,6 @@ class SettingsViewController: UIViewController {
     var backgroundColor: UIColor!
     var delegate: SettingsViewControllerDelegate!
 
-    // MARK: - Private Properties
-
-   
-
     // MARK: - Override Methods
 
     override func viewDidLoad() {
