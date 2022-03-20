@@ -42,9 +42,7 @@ class SettingsViewController: UIViewController {
     // MARK: - IBActions
 
     @IBAction func saveButtonPressed() {
-        delegate.setBackgroundColor(red: CGFloat(redSlider.value),
-                                    green: CGFloat(greenSlider.value),
-                                    blue: CGFloat(blueSlider.value))
+        delegate.setBackgroundColor(with: colorView.backgroundColor ?? .white)
         dismiss(animated: true)
     }
 
@@ -84,20 +82,15 @@ extension SettingsViewController {
     }
 
     private func updateUI() {
+        let color = CIColor(color: backgroundColor)
         
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
-        backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        
-        redSlider.value = Float(red)
+        redSlider.value = Float(color.red)
         slidersValuesChanged(redSlider)
         
-        greenSlider.value = Float(green)
+        greenSlider.value = Float(color.green)
         slidersValuesChanged(greenSlider)
         
-        blueSlider.value = Float(blue)
+        blueSlider.value = Float(color.blue)
         slidersValuesChanged(blueSlider)
 
         addNextButtonOnNumpad(for: redTF)
@@ -187,8 +180,6 @@ extension SettingsViewController {
             blueTF.becomeFirstResponder()
         }
     }
-
-    
 }
 
 extension SettingsViewController: UITextFieldDelegate {
@@ -209,12 +200,8 @@ extension SettingsViewController: UITextFieldDelegate {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        let textFields = [redTF, greenTF, blueTF]
-        textFields.forEach { item in
-            guard let textField = item else { return }
-            if checkTFInput(for: textField) {
-                textField.endEditing(true)
-            }
+        if checkTFInput(for: redTF), checkTFInput(for: greenTF), checkTFInput(for: blueTF) {
+            view.endEditing(true)
         }
     }
 }

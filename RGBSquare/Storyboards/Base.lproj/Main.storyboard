@@ -36,9 +36,6 @@
                             <constraint firstItem="9h3-eT-IB9" firstAttribute="trailing" secondItem="I8F-Vu-SFk" secondAttribute="trailing" constant="16" id="gqh-cX-aKG"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="settingButton" destination="I8F-Vu-SFk" id="Ne2-xn-psn"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i1x-dO-w4i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

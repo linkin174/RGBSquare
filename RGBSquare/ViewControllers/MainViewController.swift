@@ -8,13 +8,10 @@
 import UIKit
 
 protocol SettingsViewControllerDelegate {
-    func setBackgroundColor(red: CGFloat, green: CGFloat, blue: CGFloat)
+    func setBackgroundColor(with color: UIColor)
 }
 
 class MainViewController: UIViewController {
-    //MARK: - IB Outlets
-    @IBOutlet var settingButton: UIButton!
-
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let settingsVC = segue.destination as? SettingsViewController else { return }
@@ -24,7 +21,8 @@ class MainViewController: UIViewController {
 }
 //MARK: - Extensions
 extension MainViewController: SettingsViewControllerDelegate{
-    func setBackgroundColor(red: CGFloat, green: CGFloat, blue: CGFloat) {
-        view.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
+    func setBackgroundColor(with color: UIColor) {
+        view.backgroundColor = color
     }
 }
+
