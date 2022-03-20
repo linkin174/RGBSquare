@@ -89,7 +89,7 @@ extension SettingsViewController {
         
         greenSlider.value = Float(color.green)
         slidersValuesChanged(greenSlider)
-        
+
         blueSlider.value = Float(color.blue)
         slidersValuesChanged(blueSlider)
 
@@ -144,7 +144,7 @@ extension SettingsViewController {
     // MARK: - Toolbar setup
 
     private func addDoneButtonOnNumpad(for textField: UITextField) {
-        let keypadToolbar = UIToolbar()
+        let keypadToolbar = UIToolbar(frame: UIScreen.main.bounds) //так нет ошибок
         let flexiSpace = UIBarButtonItem.flexibleSpace()
         let doneButton = UIBarButtonItem(title: "Done",
                                          style: .done,
@@ -156,7 +156,7 @@ extension SettingsViewController {
     }
 
     private func addNextButtonOnNumpad(for textField: UITextField) {
-        let keypadToolbar = UIToolbar()
+        let keypadToolbar = UIToolbar(frame: UIScreen.main.bounds)
         let flexiSpace = UIBarButtonItem.flexibleSpace()
         let nextButton = UIBarButtonItem(title: "Next",
                                          style: .plain,
@@ -200,7 +200,9 @@ extension SettingsViewController: UITextFieldDelegate {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        if checkTFInput(for: redTF), checkTFInput(for: greenTF), checkTFInput(for: blueTF) {
+        if checkTFInput(for: redTF),
+            checkTFInput(for: greenTF),
+            checkTFInput(for: blueTF) {
             view.endEditing(true)
         }
     }
