@@ -19,23 +19,23 @@ class SettingsViewController: UIViewController {
     @IBOutlet var redSlider: UISlider!
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
-    
+
     @IBOutlet var redTF: UITextField!
     @IBOutlet var greenTF: UITextField!
     @IBOutlet var blueTF: UITextField!
-    
+
     // MARK: - Public Properties
 
     var backgroundColor: UIColor!
     var delegate: SettingsViewControllerDelegate!
-    
+
     // MARK: - Private Properties
 
     private var red: CGFloat = 0
     private var green: CGFloat = 0
     private var blue: CGFloat = 0
     private var alpha: CGFloat = 0
-    
+
     // MARK: - Override Methods
 
     override func viewDidLoad() {
@@ -43,13 +43,13 @@ class SettingsViewController: UIViewController {
         redTF.delegate = self
         greenTF.delegate = self
         blueTF.delegate = self
-        
+
         backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        
+
         addDoneButtonOnNumpad(for: blueTF)
         addNextButtonOnNumpad(for: redTF)
         addNextButtonOnNumpad(for: greenTF)
-        
+
         updateUI()
         colorView.layer.cornerRadius = 16
     }
@@ -78,7 +78,9 @@ class SettingsViewController: UIViewController {
         setColorViewBGColor()
     }
 }
-//MARK: - Extensions
+
+// MARK: - Extensions
+
 extension SettingsViewController {
     private func showAlert(for textField: UITextField) {
         let alert = UIAlertController(title: "Неверные данные",
@@ -89,7 +91,7 @@ extension SettingsViewController {
         present(alert, animated: true)
         textField.text = "1.00"
     }
-    
+
     private func setColorViewBGColor() {
         colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
                                             green: CGFloat(greenSlider.value),
@@ -105,18 +107,18 @@ extension SettingsViewController {
         setTextFieldValue(for: redTF)
         setTextFieldValue(for: greenTF)
         setTextFieldValue(for: blueTF)
-        
+
         setLabelValue(for: redColorLabel)
         setLabelValue(for: greenColorLabel)
         setLabelValue(for: blueColorLabel)
-        
+
         setColorViewBGColor()
     }
-    
+
     private func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
-    
+
     private func setLabelValue(for labels: UILabel...) {
         labels.forEach { label in
             switch label {
@@ -129,7 +131,7 @@ extension SettingsViewController {
             }
         }
     }
-    
+
     private func setTextFieldValue(for textFields: UITextField...) {
         textFields.forEach { textField in
             switch textField {
@@ -142,8 +144,9 @@ extension SettingsViewController {
             }
         }
     }
-    
+
     // MARK: - Toolbar setup
+
     func addDoneButtonOnNumpad(for textField: UITextField) {
         let keypadToolbar = UIToolbar()
         let flexiSpace = UIBarButtonItem.flexibleSpace()
@@ -155,7 +158,7 @@ extension SettingsViewController {
         keypadToolbar.sizeToFit()
         textField.inputAccessoryView = keypadToolbar
     }
-    
+
     func addNextButtonOnNumpad(for textField: UITextField) {
         let keypadToolbar = UIToolbar()
         let flexiSpace = UIBarButtonItem.flexibleSpace()
@@ -181,56 +184,43 @@ extension SettingsViewController {
             blueTF.becomeFirstResponder()
         }
     }
-    
+
     private func checkInputIsOK(for textField: UITextField) -> Bool {
-        guard let text = textField.text else { return false }
-        guard let value = Float(text), value <= 1.0 else {
+        guard let text = textField.text,
+              let value = Float(text),
+              value <= 1.0 else
+        {
             showAlert(for: textField)
             return false
         }
         return true
     }
-    
-//    private func checkTFNotEmpty(for textField: UITextField) -> Bool {
-//        guard let text = textField.text else {
-//            showAlert(for: textField)
-//            return false
-//        }
-//        return true
-//    }
 }
 
 extension SettingsViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let text = textField.text else { return }
-        guard let value = Float(text) else { return }
+        guard let text = textField.text, let value = Float(text) else { return }
         switch textField {
         case redTF:
-            if checkInputIsOK(for: redTF) {
                 redSlider.setValue(value, animated: true)
                 slidersValuesChanged(redSlider)
-            }
         case greenTF:
-            if checkInputIsOK(for: greenTF) {
                 greenSlider.setValue(value, animated: true)
                 slidersValuesChanged(redSlider)
-            }
         default:
-            if checkInputIsOK(for: blueTF) {
                 blueSlider.setValue(value, animated: true)
                 slidersValuesChanged(blueSlider)
+        }
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        let textFields = [redTF, greenTF, blueTF]
+        textFields.forEach { item in
+            guard let textField = item else { return }
+            if checkInputIsOK(for: textField) {
+                textField.endEditing(true)
             }
         }
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        let textField = [redTF, greenTF, blueTF]
-        textField.forEach { item in
-            guard let textField = item else { return }
-            if checkInputIsOK(for: textField) {
-            textField.endEditing(true)
-            }
-            }
-        }
 }
